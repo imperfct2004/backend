@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
 app.use(cors());
 
 // Connect to MongoDB
@@ -13,6 +14,7 @@ if (!process.env.MONGO_URI) {
   console.error("❌ ERROR: MONGO_URI is missing! Add it to your .env file.");
   process.exit(1); // Stop the app
 }
+
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -20,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("✅ MongoDB Connected"))
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// ✅ Add a default route to test if the server is working
+// ✅ Default route to check if the server is running
 app.get("/", (req, res) => {
     res.send("🚀 Server is running!");
 });
